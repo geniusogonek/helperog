@@ -4,6 +4,7 @@ import webbrowser
 from playsound import playsound
 from gtts import gTTS
 
+
 AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-"}
 
 
@@ -29,7 +30,6 @@ def listening(self):
             if self.state == 1:
                 sr.adjust_for_ambient_noise(mic, duration=0.5)
                 data = sr.listen(mic)
-
 
                 try:
                     text = sr.recognize_google(data, language="ru").lower().replace("х", "*")
