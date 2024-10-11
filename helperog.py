@@ -14,6 +14,7 @@ class Helperog(QMainWindow):
         self.listening_thread = threading.Thread(target=listening, args=(self,))
         self.listening_thread.start()
         self.state = 0
+        self.stop = 0
         self.setWindowTitle("Хелперог")
         self.setFixedSize(120, 120)
 
@@ -29,11 +30,17 @@ class Helperog(QMainWindow):
         else:
             size = (20, 20, 80, 80)
             self.state = 1
-        self.listenButton.setGeometry(QtCore.QRect(*size))
+        self.listenButton.setGeometry(*size)
+
+    def stop_thread(self, code):
+        self.stop = 1
+
+    def stop_handler(self):
+        app.exit()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     helpog = Helperog()
     helpog.show()
-    sys.exit(app.exec())
+    helpog.stop_thread(app.exec())

@@ -1,3 +1,4 @@
+import sys
 import speech_recognition
 import webbrowser
 
@@ -17,7 +18,7 @@ def check_str(text):
 
 def create_number(num):
     obj = gTTS(num, slow=False, lang="ru")
-    obj.save("number.mp3")
+    obj.save("src/number.mp3")
 
 
 sr = speech_recognition.Recognizer()
@@ -38,18 +39,19 @@ def listening(self):
                     continue
 
                 if text == "привет":
-                    playsound("Здравствуйте!.mp3")
+                    playsound("src/Здравствуйте!.mp3")
                 elif text == "открой youtube":
                     webbrowser.open("https://youtube.com")
-                    playsound("Выполнено!.mp3")
+                    playsound("src/Выполнено!.mp3")
                 elif text == "выключись":
-                    playsound("Обрабатываю.mp3")
-                    exit()
+                    playsound("src/Обрабатываю.mp3")
+                    self.stop_handler()
+                    sys.exit()
                 elif check_str(text) and text != "":
                     num = str(eval(text.replace("в степени", "**")))
                     create_number(num)
-                    playsound("number.mp3")
+                    playsound("src/number.mp3")
                 else:
-                    return "Фраза не распознана: " + text
-            else:
-                print("state = 0")
+                    print("Фраза не распознана: " + text)
+            if self.stop == 1:
+                sys.exit()
