@@ -44,3 +44,4 @@ if __name__ == "__main__":
     helpog = Helperog()
     helpog.show()
     helpog.stop_thread(app.exec())
+    sys.exit()

@@ -1,12 +1,13 @@
 import sys
 import speech_recognition
 import webbrowser
+import time
 
 from playsound import playsound
 from gtts import gTTS
 
 
-AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-"}
+AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
 
 
 def check_str(text):
@@ -34,8 +35,11 @@ def listening(self):
 
                 try:
                     text = sr.recognize_google(data, language="ru").lower().replace("х", "*")
+                    start = time.time()
                 except speech_recognition.exceptions.UnknownValueError:
-                    self.listen_handler()
+                    end = time.time()
+                    if end - start > 10:
+                        self.listen_handler()
                     continue
 
                 if text == "привет":
@@ -47,8 +51,8 @@ def listening(self):
                     playsound("src/Обрабатываю.mp3")
                     self.stop_handler()
                     sys.exit()
-                elif check_str(text) and text != "":
-                    num = str(eval(text.replace("в степени", "**")))
+                elif check_str(text.replace(",", ".")) and text != "":
+                    num = str(eval(text.replace("в степени", "**").replace(",", ".")))
                     create_number(num)
                     playsound("src/number.mp3")
                 else:
