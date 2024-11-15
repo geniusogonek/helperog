@@ -12,15 +12,16 @@ AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
 
 
 def check_str(text):
-    symbs = set(text.replace(" ", "").replace("встепени", "**"))
+    symbs = set(text)
     if AVALIABLE.intersection(symbs) == symbs:
         return True
     return False
 
 
-def create_number(num):
-    obj = gTTS(num, slow=False, lang="ru")
-    obj.save("src/number.mp3")
+def say(text):
+    obj = gTTS(text, slow=False, lang="ru")
+    obj.save("src/text.mp3")
+    playsound("src/text.mp3")
 
 
 sr = speech_recognition.Recognizer()
@@ -44,24 +45,29 @@ def listening(self):
                         self.listen_handler()
                     continue
 
-                if text == "привет":
-                    playsound("src/Здравствуйте!.mp3")
-                elif text == "добавить":
-                    add_request("добавить", "добавлено")
-                elif text == "тест":
-                    print(get_last_request())
-                elif text == "открой youtube":
+                if text in ["привет", "hi"]:
+                    say("Здравствуйте")
+
+                elif text in ["открой youtube", "open youtube"]:
                     webbrowser.open("https://youtube.com")
-                    playsound("src/Выполнено!.mp3")
-                elif text == "выключись":
-                    playsound("src/Обрабатываю.mp3")
+                    say("Выполнено")
+
+                elif text in ["выключись", "turn off"]:
+                    say("Выключаюсь")
                     self.stop_handler()
                     sys.exit()
-                elif check_str(text.replace(",", ".")) and text != "":
-                    num = str(eval(text.replace("в степени", "**").replace(",", ".")))
-                    create_number(num)
-                    playsound("src/number.mp3")
+
+                elif text in ["повтори", "repeat"]:
+                    last_saied = get_last_request()
+                    say(last_saied[2])
+
                 else:
-                    print("Фраза не распознана: " + text)
+                    text = text.replace(",", ".").replace("в степени", "**").replace(" ", "")
+                    if check_str(text):
+                        num = str(eval(text))
+                        say(num)
+                    else:
+                        say("Не поняла вас")
+                        print(f"Фраза не распознана: {text}")
             if self.stop == 1:
                 sys.exit()
