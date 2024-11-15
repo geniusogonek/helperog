@@ -6,8 +6,6 @@ from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
 from commands import listening
 
 
-
-
 class Helperog(QMainWindow):
     def __init__(self):
         super().__init__()

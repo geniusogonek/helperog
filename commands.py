@@ -5,6 +5,7 @@ import time
 
 from playsound import playsound
 from gtts import gTTS
+from database import add_request, get_last_request, init_tables
 
 
 AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
@@ -27,6 +28,7 @@ sr.pause_threshold = 0.5
 
 
 def listening(self):
+    init_tables()
     with speech_recognition.Microphone() as mic:
         while True:
             if self.state == 1:
@@ -44,6 +46,10 @@ def listening(self):
 
                 if text == "привет":
                     playsound("src/Здравствуйте!.mp3")
+                elif text == "добавить":
+                    add_request("добавить", "добавлено")
+                elif text == "тест":
+                    print(get_last_request())
                 elif text == "открой youtube":
                     webbrowser.open("https://youtube.com")
                     playsound("src/Выполнено!.mp3")
