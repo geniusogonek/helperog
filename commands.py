@@ -5,7 +5,7 @@ import time
 
 from playsound import playsound
 from gtts import gTTS
-from database import add_request, get_last_request, init_tables
+from database import add_request, get_last_request, init_tables, get_last_num
 
 
 AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
@@ -51,21 +51,30 @@ def listening(self):
                 elif text in ["открой youtube", "open youtube"]:
                     webbrowser.open("https://youtube.com")
                     say("Выполнено")
+                    add_request(text, "Выполнено")
 
                 elif text in ["выключись", "turn off"]:
                     say("Выключаюсь")
+                    add_request(text, "Выключаюсь")
                     self.stop_handler()
                     sys.exit()
 
                 elif text in ["повтори", "repeat"]:
                     last_saied = get_last_request()
-                    say(last_saied[2])
+                    say(last_saied[1])
+
 
                 else:
-                    text = text.replace(",", ".").replace("в степени", "**").replace(" ", "")
+                    text = text.replace(",", ".")\
+                        .replace("в степени", "**")\
+                        .replace(" ", "")\
+                        .replace("последняя", get_last_num()[0])\
+                        .replace("последние", get_last_num()[0])
+
                     if check_str(text):
                         num = str(eval(text))
                         say(num)
+                        add_request(text, num, True)
                     else:
                         say("Не поняла вас")
                         print(f"Фраза не распознана: {text}")
