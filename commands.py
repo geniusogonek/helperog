@@ -52,6 +52,7 @@ sr.pause_threshold = 0.5
 
 
 def listening(self):
+    """Функция прослушивания"""
     db = Database()
     db.init_tables()
     while True:

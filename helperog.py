@@ -24,11 +24,11 @@ class Helperog(QMainWindow):
     def listen_handler(self):
         if self.state:
             size = (40, 40, 40, 40)
-            self.state = 0
+            self.state = 0 # Отключение прослушивания
         else:
             size = (20, 20, 80, 80)
-            self.state = 1
-        self.listenButton.setGeometry(*size)
+            self.state = 1 # Включение прослушивания
+        self.listenButton.setGeometry(*size) # Изменение размеров кнопки для визуализации
 
     def stop_thread(self, code):
         self.stop = 1
