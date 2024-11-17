@@ -3,12 +3,35 @@ import speech_recognition
 import webbrowser
 import time
 
+import os
+
+from dotenv import load_dotenv
 from playsound import playsound
 from gtts import gTTS
 from database import Database
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_gigachat.chat_models import GigaChat
+
+load_dotenv()
 
 
+TOKEN = os.getenv("TOKEN")
 AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
+
+
+gigachat = GigaChat(
+    credentials="ключ_авторизации",
+    scope="GIGACHAT_API_PERS",
+    model="GigaChat",
+    verify_ssl_certs=False,
+    streaming=False,
+)
+
+messages = [
+    SystemMessage(
+        content="Ты голосовой помощник, старайся отвечать кратко и по делу"
+    )
+]
 
 
 def check_str(text):
@@ -65,7 +88,7 @@ def listening(self):
                 say(last_saied[1])
 
             else:
-                last_num = db.get_last_num[0]
+                last_num = db.get_last_num()[0]
                 text = text\
                     .replace(",", ".")\
                     .replace("в степени", "**")\
@@ -79,7 +102,11 @@ def listening(self):
                         db.add_request(text, num, True)
 
                 else:
-                    say("Не поняла вас")
-                    print(f"Фраза не распознана: {text}")
+                    print(text, type(text))
+                    messages.append(HumanMessage(content=text))
+                    res = gigachat.invoke(messages)
+                    messages.append(res)
+                    say(res.content)
+
             if self.stop == 1:
                 sys.exit()
