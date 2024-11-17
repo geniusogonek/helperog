@@ -3,3 +3,4 @@ SpeechRecognition
 playsound
 pyqt6
 python-dotenv
+langchain-gigachat
