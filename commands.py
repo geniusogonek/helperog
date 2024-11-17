@@ -20,7 +20,7 @@ AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
 
 
 gigachat = GigaChat(
-    credentials="ключ_авторизации",
+    credentials=TOKEN,
     scope="GIGACHAT_API_PERS",
     model="GigaChat",
     verify_ssl_certs=False,
@@ -102,7 +102,6 @@ def listening(self):
                         db.add_request(text, num, True)
 
                 else:
-                    print(text, type(text))
                     messages.append(HumanMessage(content=text))
                     res = gigachat.invoke(messages)
                     messages.append(res)
