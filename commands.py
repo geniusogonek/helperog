@@ -106,6 +106,7 @@ def listening(self):
                     res = gigachat.invoke(messages)
                     messages.append(res)
                     say(res.content)
+                    db.add_request(text, res.content)
 
             if self.stop == 1:
                 sys.exit()
