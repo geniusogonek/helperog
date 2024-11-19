@@ -22,7 +22,7 @@ gigachat = GigaChat(
     model="GigaChat",
     verify_ssl_certs=False,
     streaming=False,
-)
+) if TOKEN is not None else None
 
 messages = [
     SystemMessage(
@@ -98,12 +98,14 @@ def listening(self):
                         say(num)
                         db.add_request(new_text, num, True)
 
-                else:
+                elif gigachat is not None:
                     messages.append(HumanMessage(content=text))
                     res = gigachat.invoke(messages)
                     messages.append(res)
                     say(res.content)
                     db.add_request(text, res.content)
+                else:
+                    say("Сначала установите токен")
 
         if self.stop == 1:
             sys.exit()
