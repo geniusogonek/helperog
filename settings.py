@@ -12,6 +12,11 @@ class InputTokenDialog(QDialog):
         self.btn = QPushButton(self)
         self.btn.setText("Установить")
         self.btn.setGeometry(50, 40, 100, 20)
+        self.btn.clicked.connect(self.set_token)
+
+    def set_token(self):
+        self.parent().parent.set_token(self.line_edit.text())
+        self.close()
 
 
 class Settings(QMainWindow):

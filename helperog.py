@@ -36,6 +36,10 @@ class Helperog(QMainWindow):
         self.settings.show()
         self.hide()
 
+    def set_token(self, token):
+        with open("token.txt", "w") as file:
+            file.write(token)
+
     def listen_handler(self):
         if self.state:
             size = (40, 40, 40, 40)

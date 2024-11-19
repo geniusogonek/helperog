@@ -3,9 +3,6 @@ import speech_recognition
 import webbrowser
 import time
 
-import os
-
-from dotenv import load_dotenv
 from playsound import playsound
 from gtts import gTTS
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -13,10 +10,9 @@ from langchain_gigachat.chat_models import GigaChat
 from database.database import Database
 
 
-load_dotenv()
+with open("token.txt", "r") as file:
+    TOKEN = file.read()
 
-
-TOKEN = os.getenv("TOKEN")
 AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
 
 
