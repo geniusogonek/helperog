@@ -12,9 +12,9 @@ class InputTokenDialog(QDialog):
         self.btn = QPushButton(self)
         self.btn.setText("Установить")
         self.btn.setGeometry(50, 40, 100, 20)
-        self.btn.clicked.connect(self.set_token)
+        self.btn.clicked.connect(self.save_config)
 
-    def set_token(self):
+    def save_config(self):
         self.parent().parent.set_token(self.line_edit.text())
         self.close()
 
@@ -45,12 +45,13 @@ class Settings(QMainWindow):
         self.returnButton = QPushButton(self)
         self.returnButton.setText("Сохранить")
         self.returnButton.setGeometry(10, 135, 130, 30)
-        self.returnButton.clicked.connect(self.open_main)
+        self.returnButton.clicked.connect(self.save_config)
 
     def open_dialog(self):
         self.dialog.open()
 
-    def open_main(self):
+    def save_config(self):
         self.parent.show()
+        self.parent.micro = self.choiceMicro.currentData()
         self.parent.setGeometry(300, 300, 300, 300)
         self.hide()
