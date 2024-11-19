@@ -37,9 +37,7 @@ messages = [
 
 def check_str(text):
     symbs = set(text)
-    if AVALIABLE.intersection(symbs) == symbs:
-        return True
-    return False
+    return AVALIABLE.intersection(symbs) == symbs
 
 
 def say(text):
