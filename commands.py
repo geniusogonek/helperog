@@ -92,17 +92,17 @@ def listening(self):
             elif text:
                 print(text)
                 last_num = db.get_last_num()[0]
-                text = text\
+                new_text = text\
                     .replace(",", ".")\
                     .replace("в степени", "**")\
                     .replace(" ", "")\
                     .replace("последняя", last_num)\
                     .replace("последние", last_num)
 
-                if check_str(text):
-                        num = str(eval(text))
+                if check_str(new_text):
+                        num = str(eval(new_text))
                         say(num)
-                        db.add_request(text, num, True)
+                        db.add_request(new_text, num, True)
 
                 else:
                     messages.append(HumanMessage(content=text))
@@ -111,5 +111,5 @@ def listening(self):
                     say(res.content)
                     db.add_request(text, res.content)
 
-            if self.stop == 1:
-                sys.exit()
+        if self.stop == 1:
+            sys.exit()
