@@ -10,7 +10,6 @@ from playsound import playsound
 from gtts import gTTS
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_gigachat.chat_models import GigaChat
-
 from database.database import Database
 
 load_dotenv()
@@ -58,7 +57,7 @@ def listening(self):
     db.init_tables()
     while True:
         if self.state == 1:
-            with speech_recognition.Microphone() as mic:
+            with speech_recognition.Microphone(self.micro) as mic:
                 sr.adjust_for_ambient_noise(mic, duration=0.5)
                 data = sr.listen(mic)
 
@@ -89,7 +88,8 @@ def listening(self):
                 last_saied = db.get_last_request()
                 say(last_saied[1])
 
-            else:
+            elif text:
+                print(text)
                 last_num = db.get_last_num()[0]
                 text = text\
                     .replace(",", ".")\

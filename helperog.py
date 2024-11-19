@@ -4,6 +4,7 @@ import threading
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
 from commands import listening
+from pyaudio import PyAudio
 
 
 class Helperog(QMainWindow):
@@ -13,6 +14,7 @@ class Helperog(QMainWindow):
         self.listening_thread.start()
         self.state = 0
         self.stop = 0
+        self.micro = PyAudio().get_default_input_device_info()["index"]
         self.setWindowTitle("Хелперог")
         self.setFixedSize(120, 120)
 
