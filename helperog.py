@@ -8,24 +8,30 @@ from settings import Settings
 
 
 class Helperog(QMainWindow):
+    """Основной класс программы"""
     def __init__(self):
         super().__init__()
         self.setFixedSize(120, 150)
         self.setWindowTitle("Хелперог")
 
+        # Установка базового микрофона автоматически
         self.pyaudio = PyAudio()
         self.micro = self.pyaudio.get_default_input_device_info()["index"]
 
+        # Создание потока для прослушивания
         self.listening_thread = threading.Thread(target=listening, args=(self,))
         self.listening_thread.start()
+
         self.state = 0
         self.stop = 0
 
+        # Кнопка включения-выключения микрофона
         self.listenButton = QPushButton(self)
         self.listenButton.setGeometry(40, 40, 40, 40)
         self.listenButton.setText("<>")
         self.listenButton.clicked.connect(self.listen_handler)
 
+        # Кнопка открытия настроек
         self.settingsButton = QPushButton(self)
         self.settingsButton.setText("Настройки")
         self.settingsButton.setGeometry(10, 110, 100, 30)
@@ -33,6 +39,8 @@ class Helperog(QMainWindow):
         self.settings = Settings(self)
 
     def open_settings(self):
+        """Открытие настроек"""
+        self.settings.update_microphones()
         self.settings.show()
         self.hide()
 
