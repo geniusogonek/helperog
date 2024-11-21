@@ -4,8 +4,8 @@ import threading
 from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
 from commands import listening
 from pyaudio import PyAudio
-from settings import Settings
-from chat import Chat
+from forms.settings import Settings
+from forms.chat import Chat
 
 
 class Helperog(QMainWindow):
