@@ -5,35 +5,8 @@ import time
 
 from playsound import playsound
 from gtts import gTTS
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_gigachat.chat_models import GigaChat
 from database.database import Database
-
-
-with open("token.txt", "r") as file:
-    TOKEN = file.read()
-
-AVALIABLE = set(map(str, range(10))) | {"*", "+", "/", "-", "."}
-
-
-gigachat = GigaChat(
-    credentials=TOKEN,
-    scope="GIGACHAT_API_PERS",
-    model="GigaChat",
-    verify_ssl_certs=False,
-    streaming=False,
-) if TOKEN is not None else None
-
-messages = [
-    SystemMessage(
-        content="Ты голосовой помощник, старайся отвечать кратко и по делу"
-    )
-]
-
-
-def check_str(text):
-    symbs = set(text)
-    return AVALIABLE.intersection(symbs) == symbs
+from elsetextcommand import elsetext
 
 
 def say(text):
@@ -57,7 +30,7 @@ def listening(self):
                 data = sr.listen(mic)
 
             try:
-                text = sr.recognize_google(data, language="ru").lower().replace("х", "*")
+                text = sr.recognize_google(data, language="ru").lower()
                 start = time.time()
             except speech_recognition.exceptions.UnknownValueError:
                 end = time.time()
@@ -84,28 +57,10 @@ def listening(self):
                 say(last_saied[1])
 
             elif text:
-                print(text)
-                last_num = db.get_last_num()[0]
-                new_text = text\
-                    .replace(",", ".")\
-                    .replace("в степени", "**")\
-                    .replace(" ", "")\
-                    .replace("последняя", last_num)\
-                    .replace("последние", last_num)
-
-                if check_str(new_text):
-                        num = str(eval(new_text))
-                        say(num)
-                        db.add_request(new_text, num, True)
-
-                elif gigachat is not None:
-                    messages.append(HumanMessage(content=text))
-                    res = gigachat.invoke(messages)
-                    messages.append(res)
-                    say(res.content)
-                    db.add_request(text, res.content)
-                else:
-                    say("Сначала установите токен")
+                request, answer, is_num = elsetext(text)
+                if is_num is not None:
+                    db.add_request(request, answer, is_num)
+                say(answer)
 
         if self.stop == 1:
             sys.exit()
