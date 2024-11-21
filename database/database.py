@@ -41,3 +41,9 @@ class Database:
         result = cursor.fetchone()
         cursor.close()
         return result
+
+    def close_connection(self):
+        self.connection.close()
+
+    def reopen_connection(self):
+        self.connection = sqlite3.connect("database/database.db")

@@ -10,10 +10,11 @@ from forms.chat import Chat
 
 class Helperog(QMainWindow):
     """Основной класс программы"""
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
         self.setFixedSize(200, 300)
         self.setWindowTitle("Хелперог")
+        self.app = app
 
         # Установка базового микрофона автоматически
         self.pyaudio = PyAudio()
@@ -30,6 +31,7 @@ class Helperog(QMainWindow):
         self.listenButton = QPushButton(self)
         self.listenButton.setGeometry(60, 60, 80, 80)
         self.listenButton.setText("<>")
+        self.listenButton.setStyleSheet("font-size: 25px")
         self.listenButton.clicked.connect(self.listen_handler)
 
         # Кнопка открытия настроек
@@ -63,9 +65,11 @@ class Helperog(QMainWindow):
 
     def listen_handler(self):
         if self.state:
+            self.listenButton.setStyleSheet("font-size: 25px")
             size = (60, 60, 80, 80)
             self.state = 0 # Отключение прослушивания
         else:
+            self.listenButton.setStyleSheet("font-size: 40px")
             size = (40, 40, 120, 120)
             self.state = 1 # Включение прослушивания
         self.listenButton.setGeometry(*size) # Изменение размеров кнопки для визуализации
@@ -74,12 +78,4 @@ class Helperog(QMainWindow):
         self.stop = 1
 
     def stop_handler(self):
-        app.exit()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    helpog = Helperog()
-    helpog.show()
-    helpog.stop_thread(app.exec())
-    sys.exit()
+        self.app.exit()

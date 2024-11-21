@@ -18,6 +18,7 @@ gigachat = GigaChat(
 ) if TOKEN is not None else None
 
 db = Database()
+db.close_connection()
 
 
 messages = [
@@ -34,7 +35,9 @@ def check_str(text):
 
 
 def elsetext(text):
+    db.reopen_connection()
     last_num = db.get_last_num()[0]
+    db.close_connection()
     new_text = text\
         .replace("х", "*")\
         .replace(",", ".")\
