@@ -2,7 +2,7 @@ import sys
 import threading
 
 from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
-from commands import listening
+from utils.commands import listening
 from pyaudio import PyAudio
 from forms.settings import Settings
 from forms.chat import Chat

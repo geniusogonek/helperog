@@ -6,7 +6,7 @@ import time
 from playsound import playsound
 from gtts import gTTS
 from database.database import Database
-from elsetextcommand import elsetext
+from utils.elsetextcommand import elsetext
 
 
 def say(text):

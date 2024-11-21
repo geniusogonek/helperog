@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QPlainTextEdit, QLineEdit, QPushButton
-from elsetextcommand import elsetext
+from utils.elsetextcommand import elsetext
 from database.database import Database
 
 
