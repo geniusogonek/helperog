@@ -1,6 +1,10 @@
+import os
+
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_gigachat.chat_models import GigaChat
 from database.database import Database
+from requests import Session
+from http.cookiejar import LWPCookieJar
 
 
 with open("token.txt", "r") as file:
@@ -21,6 +25,15 @@ db = Database()
 db.close_connection()
 
 
+def load_cookies(session, filename):
+    lwpc_jar = LWPCookieJar()
+    lwpc_jar.load(filename, ignore_discard=True, ignore_expires=True)
+    session.cookies.update(lwpc_jar)
+
+session = Session()
+if os.path.exists("cookies.txt"):
+    load_cookies(session, "cookies.txt")
+
 messages = [
     SystemMessage(
         content="Ты голосовой помощник, старайся отвечать кратко и по делу"
@@ -31,7 +44,6 @@ messages = [
 def check_str(text):
     symbs = set(text)
     return AVALIABLE.intersection(symbs) == symbs
-
 
 
 def elsetext(text):
@@ -56,4 +68,4 @@ def elsetext(text):
         messages.append(res)
         return text, res.content, False
     else:
-        return "Сначала установите токен", None, None
+        message = session.get("http://127.0.0.1:8000", data={"question":})

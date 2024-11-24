@@ -1,15 +1,14 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication
-from forms.helperog import Helperog
+from forms.loginregister import LoginWindow
 
 
 def main():
     app = QApplication(sys.argv)
-    helperog = Helperog(app)
-    helperog.show()
-    helperog.stop_thread(app.exec())
-    sys.exit()
+    login = LoginWindow(app)
+    login.show()
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

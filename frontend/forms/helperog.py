@@ -1,4 +1,3 @@
-import sys
 import threading
 
 from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
@@ -39,28 +38,28 @@ class Helperog(QMainWindow):
         self.settingsButton.setText("Настройки")
         self.settingsButton.setGeometry(40, 200, 120, 30)
         self.settingsButton.clicked.connect(self.open_settings)
-        self.settings = Settings(self)
 
         # Кнопка открытия чата
         self.chatButton = QPushButton(self)
         self.chatButton.setText("Чат с ботом")
         self.chatButton.setGeometry(40, 240, 120, 30)
         self.chatButton.clicked.connect(self.open_chat)
-        self.chat = Chat(self)
 
     def open_chat(self):
         """Открытие чата"""
+        self.chat = Chat(self)
         self.chat.show()
         self.hide()
 
     def open_settings(self):
         """Открытие настроек"""
+        self.settings = Settings(self)
         self.settings.update_microphones()
         self.settings.show()
         self.hide()
 
     def set_token(self, token):
-        with open("token.txt", "w") as file:
+        with open("frontend/token.txt", "w") as file:
             file.write(token)
 
     def listen_handler(self):

@@ -3,7 +3,7 @@ import sqlite3
 
 class Database:
     def __init__(self) -> None:
-        self.connection = sqlite3.connect("database/database.db")
+        self.connection = sqlite3.connect("frontend/database/database.db")
 
     def init_tables(self):
         self.connection.execute("""
