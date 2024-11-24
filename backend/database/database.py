@@ -17,9 +17,13 @@ class Database:
         self.connection.commit()
 
     def register_user(self, username, password):
-        hash_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(4))
-        self.connection.execute(f"INSERT INTO users (username, hash_password) VALUES ('{username}', '{hash_password}')")
-        self.connection.commit()
+        try:
+            hash_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(4))
+            self.connection.execute(f"INSERT INTO users (username, hash_password) VALUES ('{username}', '{hash_password}')")
+            self.connection.commit()
+            return True
+        except:
+            return False
 
     def login_user(self, username, password):
         cursor = self.connection.cursor()
@@ -27,3 +31,4 @@ class Database:
         hash_password = cursor.fetchone()
         if hash_password:
             return bcrypt.checkpw(password.encode("utf-8"), hash_password.encode("utf-8"))
+        return False

@@ -21,12 +21,14 @@ db = Database()
 async def login(data: AuthData):
     if db.login_user(data.username, data.password):
         return generate_jwt(data)
+    return
 
 
 @app.post("/register")
 async def register(data: AuthData):
     if db.register_user(data.username, data.password):
         return generate_jwt(data)
+    return
 
 
 def validate(jwt_token):
