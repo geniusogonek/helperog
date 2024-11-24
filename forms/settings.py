@@ -5,8 +5,8 @@ class InputTokenDialog(QDialog):
     """Класс для отделения диалога от основного окна"""
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-
         self.setFixedSize(200, 70)
+        self.setWindowTitle("Токен")
         self.line_edit = QLineEdit(self)
         self.line_edit.setGeometry(10, 10, 180, 20)
 
@@ -32,6 +32,7 @@ class Settings(QMainWindow):
     def __init__(self, parent):
         super().__init__()
         self.setFixedSize(150, 180)
+        self.setWindowTitle("Настройки")
         # Родительский класс - основное окно
         self.parent = parent
 

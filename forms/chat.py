@@ -10,6 +10,7 @@ class Chat(QMainWindow):
     def __init__(self, parent):
         super().__init__()
         self.setFixedSize(250, 390)
+        self.setWindowTitle("Чат")
         self.parent = parent
 
         self.chat = QPlainTextEdit(self)
@@ -21,6 +22,7 @@ class Chat(QMainWindow):
 
         self.sendButton = QPushButton(self)
         self.sendButton.setGeometry(215, 320, 25, 25)
+        self.sendButton.setText("↪")
         self.sendButton.clicked.connect(self.send_message)
 
         self.returnButton = QPushButton(self)

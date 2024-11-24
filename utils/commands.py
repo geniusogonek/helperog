@@ -34,8 +34,11 @@ def listening(self):
                 start = time.time()
             except speech_recognition.exceptions.UnknownValueError:
                 end = time.time()
-                if end - start > 10:
-                    self.listen_handler()
+                try:
+                    if end - start > 10:
+                        self.listen_handler()
+                except UnboundLocalError:
+                    pass
                 continue
 
             if text in ["привет", "hi"]:
