@@ -51,7 +51,7 @@ class LoginWindow(QMainWindow):
         self.hide()
 
     def login(self):
-        
+        pass
 
 class RegisterWindow(QMainWindow):
     def __init__(self, parent):
