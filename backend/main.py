@@ -12,6 +12,7 @@ from langchain_gigachat import GigaChat
 from langchain_core.messages import HumanMessage, SystemMessage
 from config import GIGACHAT_TOKEN
 
+
 class AuthData(BaseModel):
     username: str
     password: str
