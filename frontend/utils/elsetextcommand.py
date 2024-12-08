@@ -22,7 +22,6 @@ gigachat = GigaChat(
     streaming=False,
 ) if TOKEN != "" else None
 
-print(gigachat)
 
 db = Database()
 db.close_connection()
