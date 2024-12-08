@@ -9,7 +9,6 @@ from http.cookiejar import LWPCookieJar
 
 with open("token.txt", "r") as file:
     TOKEN = file.read()
-    print(TOKEN)
 
 AVALIABLE = set(map(str, range(10))) | set("*+/-.()")
 

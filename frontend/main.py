@@ -10,10 +10,13 @@ def main():
     if sys.argv[-1] == "test":
         login = LoginWindow(app)
         login.show()
+        login.helperog.stop_thread(app.exec())
+        sys.exit()
     else:
         helperog = Helperog(app)
         helperog.show()
-    sys.exit(app.exec())
+        helperog.stop_thread(app.exec())
+        sys.exit()
 
 
 if __name__ == "__main__":
