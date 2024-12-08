@@ -2,7 +2,7 @@ import asyncio
 
 import uvicorn
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response, PlainTextResponse
 from fastapi.requests import Request
 from database.database import Database
@@ -64,7 +64,7 @@ async def gigachat(request: Request, question):
             db.increase_token_used(username, len(answer))
             return answer
         return "Вы истратили свой запас токенов!"
-    return "Вы не авторизованы!"
+    raise HTTPException(status_code=401, detail="Вы не авторизованы!")
 
 
 def get_answer(question):

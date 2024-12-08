@@ -1,9 +1,11 @@
 import  sys
 
-from PyQt6.QtWidgets import QLineEdit, QPushButton, QLabel, QMainWindow, QApplication
+from PyQt6.QtWidgets import QLineEdit, QPushButton, QLabel, QMainWindow
 from forms.helperog import Helperog
 
+
 class LoginWindow(QMainWindow):
+    """Окно входа в аккаунт"""
     def __init__(self, app):
         super().__init__()
 
@@ -53,7 +55,9 @@ class LoginWindow(QMainWindow):
     def login(self):
         pass
 
+
 class RegisterWindow(QMainWindow):
+    """Окно регистрации"""
     def __init__(self, parent):
         super().__init__()
 
@@ -80,7 +84,7 @@ class RegisterWindow(QMainWindow):
 
         self.toLoginButton = QPushButton(self)
         self.toLoginButton.setGeometry(50, 200, 140, 30)
-        self.toLoginButton.setText("Есть аккаунта?")
+        self.toLoginButton.setText("Есть аккаунт?")
         self.toLoginButton.clicked.connect(self.open_login)
 
         self.skipButton = QPushButton(self)
@@ -96,9 +100,3 @@ class RegisterWindow(QMainWindow):
     def open_login(self):
         self.parent.show()
         self.hide()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    ex = LoginWindow(app)
-    ex.show()
-    sys.exit(app.exec())

@@ -2,7 +2,6 @@ import sys
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
-    QApplication,
     QMainWindow,
     QWidget,
     QVBoxLayout,
@@ -15,6 +14,7 @@ from PyQt6.QtWidgets import (
 
 from utils.elsetextcommand import elsetext
 from database.database import Database
+
 
 db = Database()
 
@@ -111,10 +111,3 @@ class Chat(QMainWindow):
     def open_main(self):
         self.parent.show()
         self.hide()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    chat_window = Chat()
-    chat_window.show()
-    sys.exit(app.exec())

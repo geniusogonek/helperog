@@ -1,6 +1,8 @@
 import threading
 
-from PyQt6.QtWidgets import QPushButton, QMainWindow, QApplication
+from PyQt6.QtWidgets import QPushButton, QMainWindow
+from PyQt6.QtCore import QSize
+from PyQt6.QtGui import QIcon
 from utils.commands import listening
 from pyaudio import PyAudio
 from forms.settings import Settings
@@ -17,7 +19,10 @@ class Helperog(QMainWindow):
 
         # Установка базового микрофона автоматически
         self.pyaudio = PyAudio()
-        self.micro = self.pyaudio.get_default_input_device_info()["index"]
+        try:
+            self.micro = self.pyaudio.get_default_input_device_info()["index"]
+        except OSError:
+            self.micro = 0
 
         # Создание потока для прослушивания
         self.listening_thread = threading.Thread(target=listening, args=(self,))
@@ -27,9 +32,9 @@ class Helperog(QMainWindow):
         self.stop = 0
 
         # Кнопка включения-выключения микрофона
-        self.listenButton = QPushButton(self)
-        self.listenButton.setGeometry(60, 60, 80, 80)
-        self.listenButton.setText("<>")
+        self.listenButton = QPushButton(self, icon=QIcon("src/micro_off.png"))
+        self.listenButton.setIconSize(QSize(80, 80))
+        self.listenButton.setGeometry(40, 40, 120, 120)
         self.listenButton.setStyleSheet("font-size: 25px")
         self.listenButton.clicked.connect(self.listen_handler)
 
@@ -59,19 +64,16 @@ class Helperog(QMainWindow):
         self.hide()
 
     def set_token(self, token):
-        with open("frontend/token.txt", "w") as file:
+        with open("token.txt", "w") as file:
             file.write(token)
 
     def listen_handler(self):
         if self.state:
-            self.listenButton.setStyleSheet("font-size: 25px")
-            size = (60, 60, 80, 80)
             self.state = 0 # Отключение прослушивания
+            self.listenButton.setIcon(QIcon("src/micro_off.png"))
         else:
-            self.listenButton.setStyleSheet("font-size: 40px")
-            size = (40, 40, 120, 120)
+            self.listenButton.setIcon(QIcon("src/micro_on.png"))
             self.state = 1 # Включение прослушивания
-        self.listenButton.setGeometry(*size) # Изменение размеров кнопки для визуализации
 
     def stop_thread(self, code):
         self.stop = 1

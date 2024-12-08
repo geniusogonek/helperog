@@ -7,8 +7,9 @@ from requests import Session
 from http.cookiejar import LWPCookieJar
 
 
-with open("frontend/token.txt", "r") as file:
+with open("token.txt", "r") as file:
     TOKEN = file.read()
+    print(TOKEN)
 
 AVALIABLE = set(map(str, range(10))) | set("*+/-.()")
 
@@ -20,6 +21,8 @@ gigachat = GigaChat(
     verify_ssl_certs=False,
     streaming=False,
 ) if TOKEN != "" else None
+
+print(gigachat)
 
 db = Database()
 db.close_connection()
@@ -69,4 +72,6 @@ def elsetext(text):
         return text, res.content, False
     else:
         message = session.get("http://127.0.0.1:8000/gigachat", params={"question": text})
-        return text, message.text, False
+        if message.ok == True:
+            text, message.text, False
+        return text, message.json()["detail"], False

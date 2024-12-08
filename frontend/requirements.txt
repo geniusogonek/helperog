@@ -1,7 +1,7 @@
-gTTS
+gtts
 SpeechRecognition
-playsound
-pyqt6
+playsound==1.2.2
+PyQt6
 python-dotenv
 langchain-gigachat
 PyAudio
